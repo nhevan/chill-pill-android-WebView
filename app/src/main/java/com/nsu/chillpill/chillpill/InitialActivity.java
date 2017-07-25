@@ -1,6 +1,7 @@
 package com.nsu.chillpill.chillpill;
 
 import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,13 +14,15 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import im.delight.android.webview.AdvancedWebView;
+
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class InitialActivity extends AppCompatActivity {
+public class InitialActivity extends AppCompatActivity implements AdvancedWebView.Listener{
 
-    private WebView mWebView;
+    private AdvancedWebView mWebView;
 
     /**
      * Whether or not the system UI should be auto-hidden after
@@ -90,14 +93,15 @@ public class InitialActivity extends AppCompatActivity {
 
         mVisible = false;
 
-        mWebView = (WebView) findViewById(R.id.activity_main_webview);
-
+        mWebView = (AdvancedWebView) findViewById(R.id.activity_main_webview);
+        mWebView.setListener(this, this);
         // Enable Javascript
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
+        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         mWebView.setWebViewClient(new WebViewClient());
-
-        mWebView.loadUrl("http://54.174.12.76/");
+//        mWebView.clearCache(true);
+        mWebView.loadUrl("http://54.174.12.76");
     }
 
     @Override
@@ -159,5 +163,19 @@ public class InitialActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+    @Override
+    public void onPageStarted(String url, Bitmap favicon) { }
+
+    @Override
+    public void onPageFinished(String url) { }
+
+    @Override
+    public void onPageError(int errorCode, String description, String failingUrl) { }
+
+    @Override
+    public void onDownloadRequested(String url, String suggestedFilename, String mimeType, long contentLength, String contentDisposition, String userAgent) { }
+
+    @Override
+    public void onExternalPageRequest(String url) { }
 
 }
